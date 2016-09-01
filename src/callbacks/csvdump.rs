@@ -87,13 +87,8 @@ impl Callback for CsvDump {
         // serialize transaction
         let block_hash = utils::arr_to_hex_swapped(&block.header.hash);
         for tx in block.txs {
-            self.tx_writer.write_all(tx.as_csv(&block_hash).as_bytes()).unwrap();
             let txid_str = utils::arr_to_hex_swapped(&tx.hash);
 
-            // serialize inputs
-            for input in &tx.value.inputs {
-                self.txin_writer.write_all(input.as_csv(&txid_str).as_bytes()).unwrap();
-            }
             self.in_count += tx.value.in_count.value;
 
             // serialize outputs
